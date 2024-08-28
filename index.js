@@ -24,11 +24,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", upload.single("fileuploads"), (req, res) => {
-  console.log(req.file, req.body);
+app.post(
+  "/upload",
+  upload.fields([
+    { name: "fileuploads", maxCount: 1 },
+    { name: "avtar", maxCount: 8 },
+  ]),
+  (req, res) => {
+    console.log(req.file, req.body);
 
-  return res.redirect("/");
-});
+    return res.redirect("/");
+  }
+);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: http://localhost:${PORT}`);
